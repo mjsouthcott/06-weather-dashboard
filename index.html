@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css" />
+    <title>Weather Dashboard</title>
+</head>
+
+<body>
+    <header>
+        <h1>Weather Dashboard</h1>
+    </header>
+    <aside>
+        <div class="card">
+            <div class="card-header">
+                <form>
+                    <label for="city-search">Search for a City:</label><br>
+                    <input type="text" id="city-search" name="city-search">
+                    <button><i class="fas fa-search"></i></button> 
+                </form>
+                <ul class="list-group list-group-flush" id="search-history">
+                    <li class="list-group-item"></li>
+                </ul>
+            </div>
+        </div>
+    </aside>
+    <div id="content">
+        <div class="card" id="current-weather">
+            <div class="card-body">
+                <h3 class="card-title">Atlanta</h3>
+                <p class="card-text">Temperature:</p>
+                <p class="card-text">Humidity:</p>
+                <p class="card-text">Wind Speed:</p>
+                <p class="card-text">UV Index: <span class="badge badge-danger">9.49</span>
+            </div>
+        </div>
+        <div id="five-day-forecast">
+            <h4>5-Day Forecast:</h4>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>
