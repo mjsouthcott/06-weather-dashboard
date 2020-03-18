@@ -1,0 +1,43 @@
+header {
+    background-color: #212931;
+    text-align: center;
+    height: 70px;
+}
+
+h1 {
+    color: white;
+    padding-top: 5px;
+}
+
+.float-left {
+    float: left;
+}
+
+aside {
+    width: 350px;
+    background-color: whitesmoke;
+    padding: 10px;
+}
+
+h5 {
+    margin-bottom: 0px;
+}
+
+.form-control {
+    width: 200px;
+    margin-bottom: 15px;
+}
+
+.clear-both {
+    clear: both;
+}
+
+.float-right {
+    float: right;
+}
+
+#content {
+    padding-top: 15px;
+    padding-left: 15px;
+    width: 100%;
+}

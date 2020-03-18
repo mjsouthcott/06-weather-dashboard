@@ -16,21 +16,20 @@
     <header>
         <h1>Weather Dashboard</h1>
     </header>
-    <aside>
-        <div class="card">
-            <div class="card-header">
-                <form>
-                    <label for="city-search">Search for a City:</label><br>
-                    <input type="text" id="city-search" name="city-search">
-                    <button><i class="fas fa-search"></i></button> 
-                </form>
-                <ul class="list-group list-group-flush" id="search-history">
-                    <li class="list-group-item"></li>
-                </ul>
-            </div>
+    <aside class="float-left">
+        <form>
+            <label for="city-search"><h5>Search for a City:</h5></label><br>
+            <input class="form-control float-left" type="text" id="city-search" name="city-search">
+            <button class="btn btn-primary float-left"><i class="fas fa-search"></i></button> 
+        </form>
+        <div class="card clear-both">
+            <ul class="list-group list-group-flush" id="search-history">
+                <li class="list-group-item">Test 1</li>
+                <li class="list-group-item">Test 2</li>
+            </ul>
         </div>
     </aside>
-    <div id="content">
+    <div id="content" class="float-right">
         <div class="card" id="current-weather">
             <div class="card-body">
                 <h3 class="card-title">Atlanta</h3>
