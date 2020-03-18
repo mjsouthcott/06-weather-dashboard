@@ -13,6 +13,10 @@ h1 {
     float: left;
 }
 
+.float-right {
+    float: right;
+}
+
 aside {
     width: 350px;
     background-color: whitesmoke;
@@ -32,12 +36,9 @@ h5 {
     clear: both;
 }
 
-.float-right {
-    float: right;
-}
-
 #content {
     padding-top: 15px;
     padding-left: 15px;
     width: 100%;
+    display: inline-block;
 }
