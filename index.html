@@ -16,32 +16,38 @@
     <header>
         <h1>Weather Dashboard</h1>
     </header>
-    <aside class="float-left">
-        <form>
-            <label for="city-search"><h5>Search for a City:</h5></label><br>
-            <input class="form-control float-left" type="text" id="city-search" name="city-search">
-            <button class="btn btn-primary float-left"><i class="fas fa-search"></i></button> 
-        </form>
-        <div class="card clear-both">
-            <ul class="list-group list-group-flush" id="search-history">
-                <li class="list-group-item">Test 1</li>
-                <li class="list-group-item">Test 2</li>
-            </ul>
-        </div>
-    </aside>
-    <div id="content">
-        <div class="card" id="current-weather">
-            <div class="card-body">
-                <h3 class="card-title">Atlanta</h3>
-                <p class="card-text">Temperature:</p>
-                <p class="card-text">Humidity:</p>
-                <p class="card-text">Wind Speed:</p>
-                <p class="card-text">UV Index: <span class="badge badge-danger">9.49</span>
+    <div class="container">
+        <div class="row">
+            <div class="col col-4 aside float-left">
+                <form>
+                    <label for="city-search"><h5>Search for a City:</h5></label><br>
+                    <input class="form-control float-left" type="text" id="city-search" name="city-search">
+                    <button class="btn btn-primary float-left"><i class="fas fa-search"></i></button> 
+                </form>
+                <div class="card clear-both">
+                    <ul class="list-group list-group-flush" id="search-history">
+                        <li class="list-group-item">Test 1</li>
+                        <li class="list-group-item">Test 2</li>
+                    </ul>
+                </div>
             </div>
-        </div>
-        <div id="five-day-forecast">
-            <h4>5-Day Forecast:</h4>
-        </div>
+            <div class="col">
+                <div id="content">
+                    <div class="card" id="current-weather">
+                        <div class="card-body">
+                            <h3 class="card-title">Atlanta</h3>
+                            <p class="card-text">Temperature:</p>
+                            <p class="card-text">Humidity:</p>
+                            <p class="card-text">Wind Speed:</p>
+                            <p class="card-text">UV Index: <span class="badge badge-danger">9.49</span>
+                        </div>
+                    </div>
+                    <div id="five-day-forecast">
+                        <h4>5-Day Forecast:</h4>
+                    </div>
+                </div>
+            </div>
+        </div>    
     </div>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
