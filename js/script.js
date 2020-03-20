@@ -70,6 +70,12 @@ function displayForecast(city) {
 // Call `displayCitySearchHistory` to display history on first page visit or page refresh
 displayCitySearchHistory(citySearchHistoryArray)
 
+// If a city was previously searched for
+if (citySearchHistoryArray) {
+    // Call `displayForecast` to display forecast for that city
+    displayForecast(citySearchHistoryArray.slice(-1)[0])
+}
+
 // Add `click` event handler to city search button
 $citySearchButton.on('click', function(event) {
     // Prevent default behaviour
