@@ -58,4 +58,6 @@ $citySearchButton.on('click', function(event) {
 $citySearchHistory.on('click', '.list-group-item', function() {
     $this = $(this)
 
+    // TODO
+    console.log($this.text())
 })
