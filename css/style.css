@@ -65,3 +65,12 @@ h5 {
 #current-weather {
     margin-bottom: 15px;
 }
+
+#five-day-forecast .card {
+    width: 125px;
+    margin-right: 20px;
+}
+
+#five-day-forecast .card-body {
+    padding: 10px;
+}
