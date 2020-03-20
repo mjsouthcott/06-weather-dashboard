@@ -24,6 +24,12 @@ function displayCitySearchHistory (citySearchHistoryArray) {
     }
 }
 
+// TODO
+// Define function to display forecast in content box
+function displayForecast() {
+
+}
+
 // Call `displayCitySearchHistory` to display history on first page visit or page refresh
 displayCitySearchHistory(citySearchHistoryArray)
 
@@ -45,4 +51,11 @@ $citySearchButton.on('click', function(event) {
 
     // set new `citySearchHistoryArray` in localStorage
     window.localStorage.setItem('citySearchHistoryArray', JSON.stringify(citySearchHistoryArray))
+})
+
+// TODO
+// Add `click` event handler to cities
+$citySearchHistory.on('click', '.list-group-item', function() {
+    $this = $(this)
+
 })
