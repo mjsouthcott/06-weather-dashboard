@@ -41,22 +41,22 @@ function displayCitySearchHistory (citySearchHistoryArray) {
 
 // Define function to display forecast in content box
 function displayForecast(city) {
+    // Set current weather
     $.ajax({
-        url: `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=970722c9c17b1555897b1f01e3ca49fb`,
+        url: `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiID}`,
         method: "GET"
     }).then(function(response) {
-        // Set current weather
-        $('#current-weather .city-name').text(response.city.name)
-        $('#current-weather .temperature').text('Temperature: ' + ((response.list[0].main.temp - 273.15) * (9 / 5) + 32).toFixed(1) + ' °F')
-        $('#current-weather .humidity').text('Humidity: ' + response.list[0].main.humidity + '%')
-        $('#current-weather .wind-speed').text('Wind Speed: ' + response.list[0].wind.speed + " MPH")
+        // TODO: Format like Ajax call for 5-day forecast
+        $('#current-weather .city-name').text(response.name)
+        $('#current-weather .temperature').text('Temperature: ' + ((response.main.temp - 273.15) * (9 / 5) + 32).toFixed(1) + ' °F')
+        $('#current-weather .humidity').text('Humidity: ' + response.main.humidity + '%')
+        $('#current-weather .wind-speed').text('Wind Speed: ' + response.wind.speed + " MPH")
 
-        // Set 5-day forecast
-        
         return response
     }).then(function(response) {
+        // Set UV index
         $.ajax({
-            url: `https://api.openweathermap.org/data/2.5/uvi?appid=${apiID}&lat=${response.city.coord.lat}&lon=${response.city.coord.lon}`,
+            url: `https://api.openweathermap.org/data/2.5/uvi?appid=${apiID}&lat=${response.coord.lat}&lon=${response.coord.lon}`,
             method: "GET"
         }).then(function(response) {
             let $UVIndexBadge = $('#current-weather .uv-index .badge')
@@ -78,6 +78,30 @@ function displayForecast(city) {
                 $UVIndexBadge.attr('class', 'badge purple')
             }
         })
+    })
+
+    // Set 5-day forecast
+    $.ajax({
+        url: `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiID}`,
+        method: "GET"
+    }).then(function(response) {
+        $('#five-day-forecast h4').nextAll().remove()
+        let index = 5
+        for (let i = 0; i < 5; i++) {
+            let date = ''
+            let imageURL = ''
+            let temperature = ((response.list[index].main.temp - 273.15) * (9 / 5) + 32).toFixed(1)
+            let humidity = response.list[index].main.humidity
+
+            let futureWeather = `<div class="card text-white bg-primary float-left" id="${i + 1}">`
+            futureWeather += `<div class="card-body"><h5 class="card-title day">${date}</h5>`
+            futureWeather += `<img src="${imageURL}"><p class="card-text temperature">Temp: ${temperature} °F</p>`
+            futureWeather += `<p class="card-text humidity">Humidity: ${humidity}%</p></div></div>`
+
+            $('#five-day-forecast').append($.parseHTML(futureWeather))
+
+            index += 8
+        }
     })
 }
 
