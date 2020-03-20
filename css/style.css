@@ -69,6 +69,7 @@ h5 {
 #five-day-forecast .card {
     width: 125px;
     margin-right: 20px;
+    margin-bottom: 20px;
 }
 
 #five-day-forecast .card-body {
