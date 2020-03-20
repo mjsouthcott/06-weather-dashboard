@@ -4,6 +4,7 @@ let $citySearchInput = $('#city-search-input')
 let $citySearchHistory = $('#city-search-history')
 let $currentWeather = $('#current-weather')
 let citySearchHistoryArray
+let apiID = '970722c9c17b1555897b1f01e3ca49fb'
 
 // Check if `citySearchHistory` exists in localStorage. If no, initialize and set it; if yes, get it
 if (!window.localStorage.getItem('citySearchHistoryArray')) {
@@ -38,32 +39,45 @@ function displayCitySearchHistory (citySearchHistoryArray) {
     }
 }
 
-// TODO
 // Define function to display forecast in content box
 function displayForecast(city) {
     $.ajax({
         url: `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=970722c9c17b1555897b1f01e3ca49fb`,
         method: "GET"
     }).then(function(response) {
-        let cityName = response.city.name
-        $('#current-weather .city-name').text(cityName)
+        // Set current weather
+        $('#current-weather .city-name').text(response.city.name)
+        $('#current-weather .temperature').text('Temperature: ' + ((response.list[0].main.temp - 273.15) * (9 / 5) + 32).toFixed(1) + ' °F')
+        $('#current-weather .humidity').text('Humidity: ' + response.list[0].main.humidity + '%')
+        $('#current-weather .wind-speed').text('Wind Speed: ' + response.list[0].wind.speed + " MPH")
 
-        let temperatureF = ((response.list[0].main.temp - 273.15) * (9 / 5) + 32).toFixed(1) + ' °F'
-        $('#current-weather .temperature').text('Temperature: ' + temperatureF)
+        // Set 5-day forecast
+        
+        return response
+    }).then(function(response) {
+        $.ajax({
+            url: `https://api.openweathermap.org/data/2.5/uvi?appid=${apiID}&lat=${response.city.coord.lat}&lon=${response.city.coord.lon}`,
+            method: "GET"
+        }).then(function(response) {
+            let $UVIndexBadge = $('#current-weather .uv-index .badge')
+            let UVIndex = response.value
+            
+            // Set UV index badge value
+            $UVIndexBadge.text(UVIndex)
 
-        let humidity = response.list[0].main.humidity + '%'
-        $('#current-weather .humidity').text('Humidity: ' + humidity)
-
-        let windSpeed = response.list[0].wind.speed + " MPH"
-        $('#current-weather .wind-speed').text('Wind Speed: ' + windSpeed)
-
-        return response.city.coord
-    /*}).then(function(coord) {
-        let UVIndex = response.list[0].main
-
-        $UVIndexCardBodyContent = $(`<p class="card-text">UV Index: <span class="badge badge-danger">${UVIndex}</span>`)
-
-        $currentWeather.append()*/
+            // Set UV index badge color based on value
+            if (UVIndex <= 2) {
+                $UVIndexBadge.attr('class', 'badge green')
+            } else if (UVIndex <= 5) {
+                $UVIndexBadge.attr('class', 'badge yellow')
+            } else if (UVIndex <= 7) {
+                $UVIndexBadge.attr('class', 'badge orange')
+            } else if (UVIndex <= 10) {
+                $UVIndexBadge.attr('class', 'badge red')
+            } else {
+                $UVIndexBadge.attr('class', 'badge purple')
+            }
+        })
     })
 }
 

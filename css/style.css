@@ -62,6 +62,31 @@ h5 {
     padding: 10px;
 }
 
+.green {
+    background-color: green;
+    color: white;
+}
+
+.yellow {
+    background-color: yellow;
+    color: black;
+}
+
+.orange {
+    background-color: orange;
+    color: black;
+}
+
+.red {
+    background-color: red;
+    color: white;
+}
+
+.purple {
+    background-color: purple;
+    color: white;
+}
+
 #current-weather {
     margin-bottom: 15px;
 }
