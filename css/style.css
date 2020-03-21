@@ -19,22 +19,29 @@ h1 {
     float: left;
 }
 
+.row {
+    min-height: 502px;
+}
+
 .aside {
     background-color: whitesmoke;
     padding: 10px;
-    height: 100%;
 }
 
-h5 {
+.aside h5 {
     margin-bottom: 0px;
 }
 
-.form-control {
+.aside .form-control {
     max-width: 200px;
 }
 
+.aside .btn {
+    margin-bottom: 15px;
+}
+
 .aside .card {
-    margin-top: 25px;
+    clear: both;
 }
 
 #content {
@@ -42,42 +49,42 @@ h5 {
     padding-left: 15px;
 }
 
-.card-body {
+#content .card-body {
     padding-bottom: 30px;
 }
 
-.card-body img {
+#content .card-body img {
     position: relative;
     height: 40px;
     width: 40px;
     margin-bottom: 15px;
 }
 
-.badge {
+#content .badge {
     padding: 10px;
 }
 
-.green {
+#content .green {
     background-color: green;
     color: white;
 }
 
-.yellow {
+#content .yellow {
     background-color: yellow;
     color: black;
 }
 
-.orange {
+#content .orange {
     background-color: orange;
     color: black;
 }
 
-.red {
+#content .red {
     background-color: red;
     color: white;
 }
 
-.purple {
+#content .purple {
     background-color: purple;
     color: white;
 }
@@ -89,7 +96,6 @@ h5 {
 #five-day-forecast .card {
     width: 140px;
     margin-right: 20px;
-    margin-bottom: 20px;
 }
 
 #five-day-forecast .card-body {
