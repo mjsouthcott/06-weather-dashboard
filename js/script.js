@@ -50,8 +50,8 @@ function displayCurrentWeather(city) {
         url: `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiID}`,
         method: "GET"
     }).then(function(response) {
-        $('#current-weather .card-body').empty()
-        console.log('test')
+        $('#content').empty()
+
         let name = response.name
         let date = new Date()
         let year = date.getFullYear()
@@ -66,14 +66,15 @@ function displayCurrentWeather(city) {
         let humidity = response.main.humidity
         let windSpeed = (response.wind.speed / 1.61).toFixed(2)
 
-        let currentWeather = `<h3 class="card-title city-name float-left">${name} (${day}/${month}/${year})</h3>`
+        let currentWeather = `<div class="card" id="current-weather"><div class="card-body">`
+        currentWeather += `<h3 class="card-title city-name float-left">${name} (${day}/${month}/${year})</h3>`
         currentWeather += `<img src="https://openweathermap.org/img/wn/${iconCode}@2x.png" alt="${iconDescription}">`
         currentWeather += `<p class="card-text temperature">Temperature: ${temperature} °C</p>`
         currentWeather += `<p class="card-text humidity">Humidity: ${humidity}%</p>`
         currentWeather += `<p class="card-text wind-speed">Wind Speed: ${windSpeed} km/h</p>`
-        currentWeather += `<p class="card-text uv-index">UV Index: <span class="badge"></span>`
+        currentWeather += `<p class="card-text uv-index">UV Index: <span class="badge"></span></div></div>`
         
-        $('#current-weather .card-body').append($.parseHTML(currentWeather))
+        $('#content').append($.parseHTML(currentWeather))
 
         displayUVIndex(response.coord.lat, response.coord.lon)
     })
@@ -112,7 +113,7 @@ function displayFiveDayForecast(city) {
         url: `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiID}`,
         method: "GET"
     }).then(function(response) {
-        $('#five-day-forecast h4').nextAll().remove()
+        let futureWeather = `<div id="five-day-forecast"><h4>5-Day Forecast:</h4>`
 
         for (let i = 0; i < response.list.length; i++) {
             if (response.list[i].dt_txt.includes('15:00')) {
@@ -124,24 +125,26 @@ function displayFiveDayForecast(city) {
                 let iconDescription = response.list[i].weather[0].description
                 let temperature = (response.list[i].main.temp - 273.15).toFixed(1)
                 let humidity = response.list[i].main.humidity
-        
-                let futureWeather = `<div class="card text-white bg-primary float-left" id="${i + 1}">`
+                        
+                futureWeather += `<div class="card text-white bg-primary float-left" id="${i + 1}">`
                 futureWeather += `<div class="card-body"><h5 class="card-title day">${day}/${month}/${year}</h5>`
                 futureWeather += `<img src="https://openweathermap.org/img/wn/${iconCode}@2x.png" alt="${iconDescription}">`
                 futureWeather += `<p class="card-text temperature">Temp: ${temperature} °C</p>`
-                futureWeather += `<p class="card-text humidity">Humidity: ${humidity}%</p></div></div>`
-        
-                $('#five-day-forecast').append($.parseHTML(futureWeather))
+                futureWeather += `<p class="card-text humidity">Humidity: ${humidity}%</p></div></div>`               
             }
         }
+
+        futureWeather += `</div>`
+
+        $('#content').append($.parseHTML(futureWeather))
     })
 }
 
-// Call `displayCitySearchHistory` to display history on first page visit or page refresh
-displayCitySearchHistory(citySearchHistoryArray)
-
 // If a city was previously searched for
-if (citySearchHistoryArray) {
+if (citySearchHistoryArray.length !== 0) {
+    // Call `displayCitySearchHistory` to display history on first page visit or page refresh
+    displayCitySearchHistory(citySearchHistoryArray)
+
     // Call `displayForecast` to display forecast for that city
     let lastCity = citySearchHistoryArray.slice(-1)[0]
     displayCurrentWeather(lastCity)
