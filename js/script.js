@@ -57,11 +57,14 @@ function displayForecast(city) {
         }
         let day = date.getDate()
         let iconCode = response.weather[0].icon
+        let iconURL = 'https://openweathermap.org/img/wn/' + iconCode + '@2x.png'
         let iconDescription = response.weather[0].description
         let temperature = ((response.main.temp - 273.15) * (9 / 5) + 32).toFixed(1)
         let humidity = response.main.humidity
         let windSpeed = response.wind.speed
 
+        $('#current-weather img').attr('src', iconURL)
+        $('#current-weather img').attr('alt', iconDescription)
         $('#current-weather .city-name').text(name + ' (' + day + '/' + month + '/' + year + ')')
         $('#current-weather .temperature').text('Temperature: ' + temperature + ' °F')
         $('#current-weather .humidity').text('Humidity: ' + humidity + '%')
