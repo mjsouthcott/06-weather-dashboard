@@ -32,7 +32,7 @@ function displayCitySearchHistory (citySearchHistoryArray) {
     // Remove all child nodes and content from aside
     $('.aside form').nextAll().remove()
 
-    let citySearchHistory = `<div class="card clear-both"><ul class="list-group list-group-flush" id="city-search-history">`
+    let citySearchHistory = `<br><div class="card"><ul class="list-group list-group-flush" id="city-search-history">`
 
     // Iterate over `citySearchHistoryArray` to display info
     for (let i = 0; i < citySearchHistoryArray.length; i++) {
