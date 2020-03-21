@@ -30,24 +30,28 @@ function formatName(string) {
 // Define function to display city search history in left aside
 function displayCitySearchHistory (citySearchHistoryArray) {
     // Remove all child nodes and content from aside
-    $citySearchHistory.empty()
+    $('.aside form').nextAll().remove()
+
+    let citySearchHistory = `<div class="card clear-both"><ul class="list-group list-group-flush" id="city-search-history">`
 
     // Iterate over `citySearchHistoryArray` to display info
     for (let i = 0; i < citySearchHistoryArray.length; i++) {
-        let $city = $(`<li class="list-group-item">${citySearchHistoryArray[i]}</li>`)
-        $citySearchHistory.append($city)
+        citySearchHistory +=`<li class="list-group-item">${citySearchHistoryArray[i]}</li>`
     }
+
+    citySearchHistory += `</ul></div>`
+
+    $('.aside').append($.parseHTML(citySearchHistory))
 }
 
-// Define function to display forecast in content box
-function displayForecast(city) {
-    // Set current weather
+// Define function to display current weather in content div
+function displayCurrentWeather(city) {
     $.ajax({
         url: `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiID}`,
         method: "GET"
     }).then(function(response) {
-        // TODO: Format like Ajax call for 5-day forecast
-        console.log(response)
+        $('#current-weather .card-body').empty()
+        console.log('test')
         let name = response.name
         let date = new Date()
         let year = date.getFullYear()
@@ -57,72 +61,78 @@ function displayForecast(city) {
         }
         let day = date.getDate()
         let iconCode = response.weather[0].icon
-        let iconURL = 'https://openweathermap.org/img/wn/' + iconCode + '@2x.png'
         let iconDescription = response.weather[0].description
-        let temperature = ((response.main.temp - 273.15) * (9 / 5) + 32).toFixed(1)
+        let temperature = (response.main.temp - 273.15).toFixed(1)
         let humidity = response.main.humidity
-        let windSpeed = response.wind.speed
+        let windSpeed = (response.wind.speed / 1.61).toFixed(2)
 
-        $('#current-weather img').attr('src', iconURL)
-        $('#current-weather img').attr('alt', iconDescription)
-        $('#current-weather .city-name').text(name + ' (' + day + '/' + month + '/' + year + ')')
-        $('#current-weather .temperature').text('Temperature: ' + temperature + ' °F')
-        $('#current-weather .humidity').text('Humidity: ' + humidity + '%')
-        $('#current-weather .wind-speed').text('Wind Speed: ' + windSpeed + " MPH")
+        let currentWeather = `<h3 class="card-title city-name float-left">${name} (${day}/${month}/${year})</h3>`
+        currentWeather += `<img src="https://openweathermap.org/img/wn/${iconCode}@2x.png" alt="${iconDescription}">`
+        currentWeather += `<p class="card-text temperature">Temperature: ${temperature} °C</p>`
+        currentWeather += `<p class="card-text humidity">Humidity: ${humidity}%</p>`
+        currentWeather += `<p class="card-text wind-speed">Wind Speed: ${windSpeed} km/h</p>`
+        currentWeather += `<p class="card-text uv-index">UV Index: <span class="badge"></span>`
+        
+        $('#current-weather .card-body').append($.parseHTML(currentWeather))
 
-        return response
-    }).then(function(response) {
-        // Set UV index
-        $.ajax({
-            url: `https://api.openweathermap.org/data/2.5/uvi?appid=${apiID}&lat=${response.coord.lat}&lon=${response.coord.lon}`,
-            method: "GET"
-        }).then(function(response) {
-            let $UVIndexBadge = $('#current-weather .uv-index .badge')
-            let UVIndex = response.value
-            
-            // Set UV index badge value
-            $UVIndexBadge.text(UVIndex)
-
-            // Set UV index badge color based on value
-            if (UVIndex <= 2) {
-                $UVIndexBadge.attr('class', 'badge green')
-            } else if (UVIndex <= 5) {
-                $UVIndexBadge.attr('class', 'badge yellow')
-            } else if (UVIndex <= 7) {
-                $UVIndexBadge.attr('class', 'badge orange')
-            } else if (UVIndex <= 10) {
-                $UVIndexBadge.attr('class', 'badge red')
-            } else {
-                $UVIndexBadge.attr('class', 'badge purple')
-            }
-        })
+        displayUVIndex(response.coord.lat, response.coord.lon)
     })
+}
 
-    // Set 5-day forecast
+// Define function to display UV index in current weather div
+function displayUVIndex(lat, lon) {
+    $.ajax({
+        url: `https://api.openweathermap.org/data/2.5/uvi?appid=${apiID}&lat=${lat}&lon=${lon}`,
+        method: "GET"
+    }).then(function(response) {
+        let $UVIndexBadge = $('#current-weather .uv-index .badge')
+        let UVIndex = response.value
+        
+        // Set UV index badge value
+        $UVIndexBadge.text(UVIndex)
+    
+        // Set UV index badge color based on value
+        if (UVIndex <= 2) {
+            $UVIndexBadge.attr('class', 'badge green')
+        } else if (UVIndex <= 5) {
+            $UVIndexBadge.attr('class', 'badge yellow')
+        } else if (UVIndex <= 7) {
+            $UVIndexBadge.attr('class', 'badge orange')
+        } else if (UVIndex <= 10) {
+            $UVIndexBadge.attr('class', 'badge red')
+        } else {
+            $UVIndexBadge.attr('class', 'badge purple')
+        }
+    })   
+}
+
+// Define function to display 5-day forecast in `5-day-forecast` div
+function displayFiveDayForecast(city) {
     $.ajax({
         url: `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiID}`,
         method: "GET"
     }).then(function(response) {
         $('#five-day-forecast h4').nextAll().remove()
-        let index = 5
-        for (let i = 0; i < 5; i++) {
-            let dateTime = response.list[index].dt_txt
-            let year = dateTime.substr(0, 4)
-            let month = dateTime.substr(5, 2)
-            let day = dateTime.substr(8, 2)
-            let iconCode = response.list[index].weather[0].icon
-            let iconDescription = response.list[index].weather[0].description
-            let temperature = ((response.list[index].main.temp - 273.15) * (9 / 5) + 32).toFixed(1)
-            let humidity = response.list[index].main.humidity
 
-            let futureWeather = `<div class="card text-white bg-primary float-left" id="${i + 1}">`
-            futureWeather += `<div class="card-body"><h5 class="card-title day">${day}/${month}/${year}</h5>`
-            futureWeather += `<img src="https://openweathermap.org/img/wn/${iconCode}@2x.png" alt="${iconDescription}"><p class="card-text temperature">Temp: ${temperature} °F</p>`
-            futureWeather += `<p class="card-text humidity">Humidity: ${humidity}%</p></div></div>`
-
-            $('#five-day-forecast').append($.parseHTML(futureWeather))
-
-            index += 8
+        for (let i = 0; i < response.list.length; i++) {
+            if (response.list[i].dt_txt.includes('15:00')) {
+                let dateTime = response.list[i].dt_txt
+                let year = dateTime.substr(0, 4)
+                let month = dateTime.substr(5, 2)
+                let day = dateTime.substr(8, 2)
+                let iconCode = response.list[i].weather[0].icon
+                let iconDescription = response.list[i].weather[0].description
+                let temperature = (response.list[i].main.temp - 273.15).toFixed(1)
+                let humidity = response.list[i].main.humidity
+        
+                let futureWeather = `<div class="card text-white bg-primary float-left" id="${i + 1}">`
+                futureWeather += `<div class="card-body"><h5 class="card-title day">${day}/${month}/${year}</h5>`
+                futureWeather += `<img src="https://openweathermap.org/img/wn/${iconCode}@2x.png" alt="${iconDescription}">`
+                futureWeather += `<p class="card-text temperature">Temp: ${temperature} °C</p>`
+                futureWeather += `<p class="card-text humidity">Humidity: ${humidity}%</p></div></div>`
+        
+                $('#five-day-forecast').append($.parseHTML(futureWeather))
+            }
         }
     })
 }
@@ -133,7 +143,9 @@ displayCitySearchHistory(citySearchHistoryArray)
 // If a city was previously searched for
 if (citySearchHistoryArray) {
     // Call `displayForecast` to display forecast for that city
-    displayForecast(citySearchHistoryArray.slice(-1)[0])
+    let lastCity = citySearchHistoryArray.slice(-1)[0]
+    displayCurrentWeather(lastCity)
+    displayFiveDayForecast(lastCity)
 }
 
 // Add `click` event handler to city search button
@@ -160,11 +172,13 @@ $citySearchButton.on('click', function(event) {
         window.localStorage.setItem('citySearchHistoryArray', JSON.stringify(citySearchHistoryArray))
     
         // Call `displayForecast` function to display current and 5-day forecasts
-        displayForecast(city)
+        displayCurrentWeather(city)
+        displayFiveDayForecast(city)
     }  
 })
 
 // Add `click` event handler to cities
-$citySearchHistory.on('click', '.list-group-item', function() {
-    displayForecast($(this).text())
+$('.aside').on('click', '.list-group-item', function() {
+    displayCurrentWeather($(this).text())
+    displayFiveDayForecast($(this).text())
 })
