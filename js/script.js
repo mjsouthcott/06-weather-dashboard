@@ -47,10 +47,25 @@ function displayForecast(city) {
         method: "GET"
     }).then(function(response) {
         // TODO: Format like Ajax call for 5-day forecast
-        $('#current-weather .city-name').text(response.name)
-        $('#current-weather .temperature').text('Temperature: ' + ((response.main.temp - 273.15) * (9 / 5) + 32).toFixed(1) + ' °F')
-        $('#current-weather .humidity').text('Humidity: ' + response.main.humidity + '%')
-        $('#current-weather .wind-speed').text('Wind Speed: ' + response.wind.speed + " MPH")
+        console.log(response)
+        let name = response.name
+        let date = new Date()
+        let year = date.getFullYear()
+        let month = date.getMonth() + 1
+        if (month < 10) {
+            month = '0' + month
+        }
+        let day = date.getDate()
+        let iconCode = response.weather[0].icon
+        let iconDescription = response.weather[0].description
+        let temperature = ((response.main.temp - 273.15) * (9 / 5) + 32).toFixed(1)
+        let humidity = response.main.humidity
+        let windSpeed = response.wind.speed
+
+        $('#current-weather .city-name').text(name + ' (' + day + '/' + month + '/' + year + ')')
+        $('#current-weather .temperature').text('Temperature: ' + temperature + ' °F')
+        $('#current-weather .humidity').text('Humidity: ' + humidity + '%')
+        $('#current-weather .wind-speed').text('Wind Speed: ' + windSpeed + " MPH")
 
         return response
     }).then(function(response) {
@@ -88,14 +103,18 @@ function displayForecast(city) {
         $('#five-day-forecast h4').nextAll().remove()
         let index = 5
         for (let i = 0; i < 5; i++) {
-            let date = ''
-            let imageURL = ''
+            let dateTime = response.list[index].dt_txt
+            let year = dateTime.substr(0, 4)
+            let month = dateTime.substr(5, 2)
+            let day = dateTime.substr(8, 2)
+            let iconCode = response.list[index].weather[0].icon
+            let iconDescription = response.list[index].weather[0].description
             let temperature = ((response.list[index].main.temp - 273.15) * (9 / 5) + 32).toFixed(1)
             let humidity = response.list[index].main.humidity
 
             let futureWeather = `<div class="card text-white bg-primary float-left" id="${i + 1}">`
-            futureWeather += `<div class="card-body"><h5 class="card-title day">${date}</h5>`
-            futureWeather += `<img src="${imageURL}"><p class="card-text temperature">Temp: ${temperature} °F</p>`
+            futureWeather += `<div class="card-body"><h5 class="card-title day">${day}/${month}/${year}</h5>`
+            futureWeather += `<img src="https://openweathermap.org/img/wn/${iconCode}@2x.png" alt="${iconDescription}"><p class="card-text temperature">Temp: ${temperature} °F</p>`
             futureWeather += `<p class="card-text humidity">Humidity: ${humidity}%</p></div></div>`
 
             $('#five-day-forecast').append($.parseHTML(futureWeather))
