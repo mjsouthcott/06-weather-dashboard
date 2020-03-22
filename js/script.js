@@ -90,19 +90,20 @@ function displayUVIndex(lat, lon) {
         url: `https://api.openweathermap.org/data/2.5/uvi?appid=${apiID}&lat=${lat}&lon=${lon}`,
         method: "GET"
     }).then(function(response) {
+        let UVIndex = response.value
         $('#current-weather .uv-index .badge').text(response.value)
     
         // Set UV index badge color based on severity
         if (UVIndex <= 2) {
-            $UVIndexBadge.attr('class', 'badge green')
+            $('#current-weather .uv-index .badge').attr('class', 'badge green')
         } else if (UVIndex <= 5) {
-            $UVIndexBadge.attr('class', 'badge yellow')
+            $('#current-weather .uv-index .badge').attr('class', 'badge yellow')
         } else if (UVIndex <= 7) {
-            $UVIndexBadge.attr('class', 'badge orange')
+            $('#current-weather .uv-index .badge').attr('class', 'badge orange')
         } else if (UVIndex <= 10) {
-            $UVIndexBadge.attr('class', 'badge red')
+            $('#current-weather .uv-index .badge').attr('class', 'badge red')
         } else {
-            $UVIndexBadge.attr('class', 'badge purple')
+            $('#current-weather .uv-index .badge').attr('class', 'badge purple')
         }
     })   
 }
