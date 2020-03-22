@@ -17,13 +17,33 @@ Click on the following URL to view the application in your browser: https://mjso
 
 ## Usage
 
-1.
+1.  Start by clicking on the form input in the left aside.
 
-2.
+![Step 1](https://github.com/mjsouthcott/06-weather-dashboard/blob/master/images/image1.JPG)
 
-3.
+2.  Type a city name (in this case, "Vancouver"), and click the search button or press "Enter". Note that character case doesn't matter as the application will properly format city names before displaying them in the search history.
 
-4.
+![Step 1](https://github.com/mjsouthcott/06-weather-dashboard/blob/master/images/image2.JPG)
+
+3.  The current conditons and five-day forecast for the city will now appear. Note that the city ("Vancouver") now appears in the search history in the left aside.
+
+![Step 1](https://github.com/mjsouthcott/06-weather-dashboard/blob/master/images/image3.JPG)
+
+4.  As you search for new cities, they'll appear in the search history. Note that if you search for the same city more than once, the search history will not create a duplicate entry.
+
+![Step 1](https://github.com/mjsouthcott/06-weather-dashboard/blob/master/images/image4.JPG)
+
+5.  The search history can contain a lot of cities.
+
+![Step 1](https://github.com/mjsouthcott/06-weather-dashboard/blob/master/images/image5.JPG)
+
+6.  If you click on a city in the search history, it will redisplay the conditions for that city (in this case, "Ottawa").
+
+![Step 1](https://github.com/mjsouthcott/06-weather-dashboard/blob/master/images/image6.JPG)
+
+7.  If you refresh the page, the last searched city's conditions will appear (in this case, "Calgary").
+
+![Step 1](https://github.com/mjsouthcott/06-weather-dashboard/blob/master/images/image7.JPG)
 
 ## Credits
 
